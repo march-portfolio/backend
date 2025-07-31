@@ -14,5 +14,4 @@ export class ContactController {
   getContacts() {
     return this.contactService.getAllContacts();
   }
-
 }
