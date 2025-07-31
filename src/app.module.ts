@@ -5,26 +5,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ContactService } from './contact/contact.service';
 import { ContactController } from './contact/contact.controller';
-import { Contact } from './contact/contact.entity';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({
-      isGlobal: true,
-    }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        url: configService.get('DATABASE_URL'),
-        entities: [Contact],
-        synchronize: false, // Set to false in production
-        ssl: configService.get('NODE_ENV') === 'production' ? { rejectUnauthorized: false } : false,
-      }),
-      inject: [ConfigService],
-    }),
-    TypeOrmModule.forFeature([Contact]),
-  ],
+  imports: [],
   controllers: [AppController, ContactController],
   providers: [AppService, ContactService],
 })
