@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ContactService } from './contact/contact.service';
@@ -8,12 +9,19 @@ import { Contact } from './contact/contact.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'sqlite',
-      database: 'contacts.sqlite',
-      entities: [Contact],
-      synchronize: true, // Don't use in production
-      logging: false,
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        url: configService.get('DATABASE_URL'),
+        entities: [Contact],
+        synchronize: true, // Set to false in production
+        ssl: configService.get('NODE_ENV') === 'production' ? { rejectUnauthorized: false } : false,
+      }),
+      inject: [ConfigService],
     }),
     TypeOrmModule.forFeature([Contact]),
   ],
