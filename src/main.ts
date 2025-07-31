@@ -5,7 +5,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
     app.enableCors({
     origin: ['https://marchtanu.pages.dev'], 
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', 
+    methods: 'GET,HEAD,PUT,PATCH,POST', 
     allowedHeaders: 'Content-Type, Authorization', 
 
   });
