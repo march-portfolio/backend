@@ -5,14 +5,6 @@ import { AppService } from './app.service';
 export class AppController {
   constructor(private readonly appService: AppService) {}
 
- @Post()
-  echoBody(@Body() body: any) {
-    return {
-      message: 'Received body successfully!',
-      data: body,
-    };
-  }
-
   @Post()
   echoBody(@Body() body: any) {
     return {
