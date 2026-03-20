@@ -19,6 +19,10 @@ describe('AppController (e2e)', () => {
     return request(app.getHttpServer())
       .get('/')
       .expect(200)
-      .expect('Hello World!');
+      .expect((res) => {
+        expect(res.body.data).toBe('Hello World!');
+        expect(res.body.statusCode).toBe(200);
+        expect(res.body.timestamp).toBeDefined();
+      });
   });
 });

@@ -1,10 +1,7 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
-import { AppService } from './app.service';
+import { Body, Controller, Post } from '@nestjs/common';
 
 @Controller()
 export class AppController {
-  constructor(private readonly appService: AppService) {}
-
   @Post()
   echoBody(@Body() body: any) {
     return {
