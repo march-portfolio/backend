@@ -3,8 +3,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ContactService } from './contact/contact.service';
-import { ContactController } from './contact/contact.controller';
+import { ContactModule } from './contact/contact.module';
 
 @Module({
   imports: [
@@ -18,15 +17,13 @@ import { ContactController } from './contact/contact.controller';
         url: configService.get('DATABASE_URL'),
         autoLoadEntities: true,
         synchronize: true,
-        ssl:
-          configService.get('NODE_ENV') === 'production'
-            ? { rejectUnauthorized: false }
-            : false,
+        ssl: { rejectUnauthorized: false },
       }),
       inject: [ConfigService],
     }),
+    ContactModule,
   ],
-  controllers: [AppController, ContactController],
-  providers: [AppService, ContactService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

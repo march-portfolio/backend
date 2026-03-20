@@ -1,15 +1,21 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Contact } from './contact.entity';
 
 @Injectable()
 export class ContactService {
-  private contacts = [];
+  constructor(
+    @InjectRepository(Contact)
+    private contactRepository: Repository<Contact>,
+  ) {}
 
-  addContact(contact: any) {
-    this.contacts.push(contact);
-    return contact;
+  async addContact(contactData: any) {
+    const contact = this.contactRepository.create({ data: contactData });
+    return await this.contactRepository.save(contact);
   }
 
-  getAllContacts() {
-    return this.contacts;
+  async getAllContacts() {
+    return await this.contactRepository.find();
   }
 }
