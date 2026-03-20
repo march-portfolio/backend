@@ -13,6 +13,12 @@ export class CreateContactDto {
   @IsNotEmpty()
   email: string;
 
+  @ApiProperty({ example: 'code', description: 'Reason for contact' })
+  @IsString()
+  @IsNotEmpty()
+  @MaxLength(50)
+  reason: string;
+
   @ApiProperty({
     example: 'Hello from your portfolio!',
     description: 'Message content',
